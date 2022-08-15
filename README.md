@@ -45,4 +45,5 @@ cd /storage/ONT_Runs
       > •  For the ***medaka*** workflow, it requires the basecalled fastq files. </br>
     </details>
 
-4.  adasd
+4.  Lines 77-118 sets the directory of input files (e.g., CRAM, fastq, barcodes) as variables.
+5.  In the case when a specific sample in Redcap has to be targeted, lines 121-152 sets a channel for Redcap local ID.
