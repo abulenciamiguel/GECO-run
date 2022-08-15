@@ -37,5 +37,13 @@ cd /storage/ONT_Runs
 1.  Lines 18-21 check for an input ***help***. If it is present, it will print the nextflow Help.
 2.  Lines 23-26 check if the user mistyped ***profile***. If the user did, it will warn that it should be ***-profile*** instead of *profile*.
 3.  Lines 28-60 checks for a workflow input. It could be any of the following: ***illumina***, ***nanopolish***, and ***medaka***. If there is no workflow input, a warning will be printed.
->- For the ***illumina*** workflow, it will check for the directory containing the fastq or CRAM files. It will also check for both the bed file and reference genome.
->- For the ***nanopolish*** workflow
+
+<details>
+  <summary>Details</summary>
+  
+  > •  For the ***illumina*** workflow, it will check for the directory containing the fastq or CRAM files. It will also check for both the bed file and reference genome. </br>
+  > •  For the ***nanopolish*** workflow, it will check for the directory containing basecalled fastq files, fast5 files, and sequencing summary. It will also output a warning if bed file and reference genome are used as inputs. These two files are only used in illumina workflow. </br>
+  > •  For the ***medaka*** workflow, it requires the basecalled fastq files. </br>
+</details>
+
+4.  adasd
