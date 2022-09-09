@@ -12,18 +12,18 @@
     <summary>transfer.sh</summary>
 
   ```bash
-  #!/bin/bash
-  # Set some default values:
-  SEQ=unset
+#!/bin/bash
+# Set some default values:
+SEQ=unset
 
 
 usage()
 {
     echo "********************************************************"
     printf "\n"
-    echo "P A R A N G    M A Y   M A L I,   L O D I C A K E !!!!"
+    echo "P A R A N G      M A Y     M A L I,     L O D I C A K E !!!!"
     printf "\n"
-    echo "S T E P   1:    C H I L L.   Y O U  G O T  T H I S.  I  B E L I E V E  I N  Y O U."
+    echo "S T E P   1:      C H I L L.     Y O U  G O T  T H I S.    I  B E L I E V E  I N  Y O U."
     printf "\n"
     echo "Usage: [ -s or --sequence "FolderName" ]"
     echo "Example: ./transfer.sh --sequence sarscov_geco_run42069"
@@ -32,12 +32,10 @@ usage()
     exit 2
 }
 
-
-
 PARSED_ARGUMENTS=$(getopt -a -n 'dataTransfer' -o "s:" --long "sequence:" -- "$@")
 VALID_ARGUMENTS=$?
 if [ "$VALID_ARGUMENTS" != "0" ]; then
-    usage
+  usage
 fi
 
 
@@ -61,63 +59,61 @@ done
 
 if [[ $SEQ != unset ]]
 then
-    echo "nice"
-
-    printf "\n\n"
-    echo "********************************************************"
-    printf "\n"  
-    echo "ssh-ing to GridIon"
-    printf "\n"
-    echo "********************************************************"
-    printf "\n\n"
-
-
-    sshpass -p PASSWORD ssh -T USER@IPADDRESS <<EOF
-
-    printf "\n\n"
-    echo "********************************************************"
-    printf "\n"  
-    echo "Copying $SEQ to the storage!"
-    printf "\n"
-    echo "********************************************************"
-    printf "\n\n"
-
-    rsync -aPvz --info=progress2 -e 'sshpass -p PASSWORD ssh -p 22' \
-    /data/"$SEQ" \
-    USER@IPADDRESS:/storage/ONT_Runs/drag_and_drop/
+    sshpass -p gridPASSWORD ssh -T gridUSER@gridIPADDRESS <<EOF
+      rsync -aPvz --info=progress2 -e 'sshpass -p hpc1PASSWORD ssh -p 22' \
+      /data/"$SEQ" \
+      storageUSER@storageIPADDRESS:/storage/ONT_Runs/drag_and_drop/test_transfer/ 2> /data/err_grid2stor.txt
 EOF
   
-
-    printf "\n\n"
-    echo "********************************************************"
-    printf "\n"  
-    echo "ssh-ing to HPC1"
-    printf "\n"
-    echo "********************************************************"
-    printf "\n\n"
+    sshpass -p gridPASSWORD ssh -T gridUSER@gridIPADDRESS "cat /data/err_grid2stor.txt" > err_grid2stor.txt
 
 
-    sshpass -p PASSWORD ssh -p 2222 -T IPADDRESS <<EOF
-
-    printf "\n\n"
-    echo "********************************************************"
-    printf "\n"  
-    echo "Creating symbolic link of $SEQ to HPC1!"
-    printf "\n"
-    echo "********************************************************"
-    printf "\n\n"
-
-
-    ln -s /data/nfs/storage/ONT_Runs/drag_and_drop/test_transfer/$SEQ \
-    /data/geco_proj_dir/raw/RITM/$SEQ
+ERROR_grid2stor=$(wc -c err_grid2stor.txt)
+  if [[ $ERROR_grid2stor != "0 err_grid2stor.txt" ]]
+  then
+      echo "********************************************************"
+      printf "\n"
+      echo "May ERROR, lods."
+      printf "\n"
+      echo "Di makita ang source folder sa GridIon."
+      printf "\n"
+      echo "Check the folder name."
+      printf "\n\n"
+    else
+      sshpass -p hpc1PASSWORD ssh -p 2222 -T hpcUSER@hpcIPADDRESS <<EOF
+        ln -s /data/nfs/storage/ONT_Runs/drag_and_drop/test_transfer/$SEQ \
+        /data/geco_proj_dir/raw/RITM/$SEQ 2> /data/geco_proj_dir/raw/RITM/err_stor2hpc1.txt
 EOF
-    exit
+      sshpass -p hpc1PASSWORD ssh -p 2222 -T hpcUSER@hpcIPADDRESS "cat /data/geco_proj_dir/raw/RITM/err_stor2hpc1.txt" > err_stor2hpc1.txt
+    
+      ERROR_stor2hpc1=$(wc -c err_stor2hpc1.txt)
+      if [[ $ERROR_stor2hpc1 != "0 err_stor2hpc1.txt" ]]
+      then
+        echo "********************************************************"
+        echo "ERROR, lods! JOKE! JOKE! JOKE! Bawasan ang coffee consumption. "
+        echo "Identical folder is present in HPC1. Replacing it with the new one."
+        echo "All is good. You got this, my bossman!"
+        echo "********************************************************"
+        printf "\n\n"
+        sshpass -p hpc1PASSWORD ssh -p 2222 -T hpcUSER@hpcIPADDRESS "rm /data/geco_proj_dir/raw/RITM/$SEQ"
+        sshpass -p hpc1PASSWORD ssh -p 2222 -T hpcUSER@hpcIPADDRESS <<EOF
+        ln -s /data/nfs/storage/ONT_Runs/drag_and_drop/test_transfer/$SEQ \
+        /data/geco_proj_dir/raw/RITM/$SEQ
+EOF
+      else
+        echo "Okay ka, Kokey!"
+      fi
+    fi
 else
     usage
 fi
+
+rm err_grid2stor.txt
+rm err_stor2hpc1.txt
 
 ```
 
   </details>
 
 
+### 2. Running the pipeline.
