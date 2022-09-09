@@ -16,7 +16,9 @@
 # Set some default values:
 SEQ=unset
 
-
+#==================================================================================
+# Chunk 1
+# The warning and instruction on how to structure the command for correct syntax.
 usage()
 {
     echo "********************************************************"
@@ -31,14 +33,16 @@ usage()
     echo "********************************************************"
     exit 2
 }
+#==================================================================================
 
+#==================================================================================
+# Chunk 2
+# Parses the arguments entered in the command line
 PARSED_ARGUMENTS=$(getopt -a -n 'dataTransfer' -o "s:" --long "sequence:" -- "$@")
 VALID_ARGUMENTS=$?
 if [ "$VALID_ARGUMENTS" != "0" ]; then
   usage
 fi
-
-
 
 eval set -- "$PARSED_ARGUMENTS"
 while :
@@ -53,42 +57,49 @@ do
          usage ;;
     esac
 done
+#==================================================================================
 
+#==================================================================================
+# Chunk 3
 
-
-
-if [[ $SEQ != unset ]]
+if [[ $SEQ == unset ]]      # Forces the user to input something
 then
+    usage
+else                        # Copies the file to storage and saving stderr to a file
     sshpass -p gridPASSWORD ssh -T gridUSER@gridIPADDRESS <<EOF
-      rsync -aPvz --info=progress2 -e 'sshpass -p hpc1PASSWORD ssh -p 22' \
+      rsync -aPvz --info=progress2 -e 'sshpass -p storagePASSWORD ssh -p 22' \
       /data/"$SEQ" \
       storageUSER@storageIPADDRESS:/storage/ONT_Runs/drag_and_drop/test_transfer/ 2> /data/err_grid2stor.txt
 EOF
-  
+    # Copies the stderr to local machine for checking
     sshpass -p gridPASSWORD ssh -T gridUSER@gridIPADDRESS "cat /data/err_grid2stor.txt" > err_grid2stor.txt
 
-
-ERROR_grid2stor=$(wc -c err_grid2stor.txt)
-  if [[ $ERROR_grid2stor != "0 err_grid2stor.txt" ]]
-  then
-      echo "********************************************************"
-      printf "\n"
-      echo "May ERROR, lods."
-      printf "\n"
-      echo "Di makita ang source folder sa GridIon."
-      printf "\n"
-      echo "Check the folder name."
-      printf "\n\n"
-    else
+    # Saves the stderr in a variable. 0 means there was no error from the copying to storage
+    ERROR_grid2stor=$(wc -c err_grid2stor.txt)
+  
+    if [[ $ERROR_grid2stor != "0 err_grid2stor.txt" ]]
+    then          # Warns if there was an error in copying from GridIon to Storage 
+        echo "********************************************************"
+        printf "\n"
+        echo "May ERROR, lods."
+        printf "\n"
+        echo "Di makita ang source folder sa GridIon."
+        printf "\n"
+        echo "Check the folder name."
+        printf "\n\n"
+    else        # Creates symbolic link from Storage to HPC1
       sshpass -p hpc1PASSWORD ssh -p 2222 -T hpcUSER@hpcIPADDRESS <<EOF
         ln -s /data/nfs/storage/ONT_Runs/drag_and_drop/test_transfer/$SEQ \
         /data/geco_proj_dir/raw/RITM/$SEQ 2> /data/geco_proj_dir/raw/RITM/err_stor2hpc1.txt
 EOF
+      # Copies the stderr of symbolic link creation to local machine for checking
       sshpass -p hpc1PASSWORD ssh -p 2222 -T hpcUSER@hpcIPADDRESS "cat /data/geco_proj_dir/raw/RITM/err_stor2hpc1.txt" > err_stor2hpc1.txt
-    
+  
+      # Saves the stderr in a variable. 0 means there was no error in the creation of symbolic link.
       ERROR_stor2hpc1=$(wc -c err_stor2hpc1.txt)
+  
       if [[ $ERROR_stor2hpc1 != "0 err_stor2hpc1.txt" ]]
-      then
+      then      # Warns if there is an identical folder in the HPC1 then replaces it with a new one.
         echo "********************************************************"
         echo "ERROR, lods! JOKE! JOKE! JOKE! Bawasan ang coffee consumption. "
         echo "Identical folder is present in HPC1. Replacing it with the new one."
@@ -100,17 +111,11 @@ EOF
         ln -s /data/nfs/storage/ONT_Runs/drag_and_drop/test_transfer/$SEQ \
         /data/geco_proj_dir/raw/RITM/$SEQ
 EOF
-      else
+      else  # If all is good.
         echo "Okay ka, Kokey!"
       fi
     fi
-else
-    usage
 fi
-
-rm err_grid2stor.txt
-rm err_stor2hpc1.txt
-
 ```
 
   </details>
