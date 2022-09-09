@@ -102,8 +102,8 @@ EOF
       then      # Warns if there is an identical folder in the HPC1 then replaces it with a new one.
         echo "********************************************************"
         echo "ERROR, lods! JOKE! JOKE! JOKE! Bawasan ang coffee consumption. "
-        echo "Identical folder is present in HPC1. Replacing it with the new one."
-        echo "All is good. You got this, my bossman!"
+        echo "Identical folder is present in HPC1. I'm replacing it with the new one."
+        echo "All is good, boss amo. Splendid! Awesome! Congratulations!"
         echo "********************************************************"
         printf "\n\n"
         sshpass -p hpc1PASSWORD ssh -p 2222 -T hpcUSER@hpcIPADDRESS "rm /data/geco_proj_dir/raw/RITM/$SEQ"
@@ -113,6 +113,7 @@ EOF
 EOF
       else  # If all is good.
         echo "Okay ka, Kokey!"
+        echo "Splendid! Awesome! Congratulations!"
       fi
     fi
 fi
