@@ -128,6 +128,8 @@ fi
 ./runArtic.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9 --barcode batch42069_barcodes.csv
 ```
 
+**Note:** Have `sshpass` installed using `sudo apt-get install sshpass`. Change the `PASSWORD` and the corresponding `USER@IPADDRESS` to `ssh`. 
+
   <details>
     <summary>runArtic.sh</summary>
   
@@ -186,7 +188,7 @@ done
 #==================================================================================
 # Chunk 3
 
-prefix=$(echo $DIR | awk -F "/" '{print $3}')   # Takes the 3rd input as the prefix 
+prefix=$(echo $DIR | awk -F "/" '{print $NF}')   # Takes the 3rd or last input as the prefix 
 
 
 if [[ $DIR != unset && $BAR != unset ]]        # Forces the user to input both parameters
@@ -211,7 +213,7 @@ then
     --basecalled_fastq /data/geco_proj_dir/raw/RITM/$DIR/fastq_pass \
     --fast5_pass /data/geco_proj_dir/raw/RITM/$DIR/fast5_pass \
     --sequencing_summary $seqsum_file \
-    --outdir /data/geco_proj_dir/analysis/RITM/$DIR"_results_2nd" \
+    --outdir /data/geco_proj_dir/analysis/RITM/$DIR"_results" \
     --directory /data/geco_proj_dir/raw/RITM/$DIR \
     --redcap_local_ids /data/geco_proj_dir/raw/RITM/$DIR/$BAR
 
@@ -225,3 +227,174 @@ fi
 
 
 ### 3. Copying results to local workstation
+  Run the bash script using the following command `./copyResults.sh --dir path/to/results --batch number`. Example: </br>
+```
+./copyResults.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9 --batch 53
+```
+
+**Note:** Have `sshpass` installed using `sudo apt-get install sshpass`. Change the `PASSWORD` and the corresponding `USER@IPADDRESS` to `ssh`.
+
+  <details>
+    <summary>copyResults.sh</summary>
+  
+  
+```bash
+#!/bin/bash
+# Set some default values:
+DIR=unset
+BATCH=unset
+
+
+#==================================================================================
+# Chunk 1
+# The warning and instruction on how to structure the command for correct syntax.
+usage()
+{
+  echo "********************************************************"
+  printf "\n"
+  echo "P A R A N G      M A Y     M A L I,     L O D I C A K E !!!!"
+  printf "\n"
+  echo "S T E P   1:      C H I L L.     Y O U  G O T  T H I S.    I  B E L I E V E  I N  Y O U."
+  printf "\n"
+  echo "Usage: [ -d or --dir path/to/results ] [ -b or --batch batchNumber ]"
+  echo "Example: ./copyResults.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9 --batch 52"
+  printf "\n"
+  echo "********************************************************"
+  exit 2
+}
+#==================================================================================
+
+#==================================================================================
+# Chunk 2
+# Parses the arguments entered in the command line
+PARSED_ARGUMENTS=$(getopt -a -n 'runningArticNextflow' -o "d:b:" --long "dir:,batch:" -- "$@")
+VALID_ARGUMENTS=$?
+if [ "$VALID_ARGUMENTS" != "0" ]; then
+  usage
+fi
+
+eval set -- "$PARSED_ARGUMENTS"
+while :
+do
+  case "$1" in
+    -d | --dir ) DIR="$2" ; shift 2 ;;
+    -s | --batch ) BATCH="$2" ; shift 2 ;;
+    # -- means the end of the arguments; drop this, and break out of the while loop
+    --) shift; break ;;
+    # If invalid options were passed, then getopt should have reported an error,
+    # which we checked as VALID_ARGUMENTS when getopt was called...
+    *)
+       usage ;;
+  esac
+done
+#==================================================================================
+
+#==================================================================================
+# Chunk 3
+
+
+if [[ $DIR != unset && $BATCH != unset ]]         # Forces the user to input both parameters
+then
+	mkdir -p Batch$BATCH                            # Creates a directory in the local workstation
+  
+  # Copies the following folders
+  sshpass -p PASSWORD scp -r -P 2222 USER@IPADDRESS:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_renameFasta ./Batch$BATCH
+  sshpass -p PASSWORD scp -r -P 2222 USER@IPADDRESS:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_process_csv ./Batch$BATCH
+  sshpass -p PASSWORD scp -r -P 2222 USER@IPADDRESS:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_makeMeta ./Batch$BATCH
+  sshpass -p PASSWORD scp -r -P 2222 USER@IPADDRESS:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_concatenate_process ./Batch$BATCH
+  sshpass -p PASSWORD scp -r -P 2222 USER@IPADDRESS:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_bammix_process ./Batch$BATCH
+else
+	usage
+fi
+```
+</details>
+
+
+### 4. Inspecting the results
+**In case of Repeat Samples** </br>
+If you have a sample that was already sequenced from the previous batch, consider it as a *repeat sample*. Change the entry of that sample in the `redcap_repeat_instance` column of the `redcap_meta_analysis.csv` located in the `articNcovNanopore_prepRedcap_makeMeta` folder. You can do this using the following sample command: </br>
+
+```bash
+./replaceInstance.sh --barcode 2194 --instance 2 --dir_input Batch53 --file_input 20220908_0847_X3_FAT96737_d97a9a19.redcap_meta_analysis
+```
+
+- `barcode` corresponds to the barcode of the repeat sample.
+- `instance` corresponds to the number that this sample has been sequenced. If this is the 2nd time, place `2`.
+- `dir_input` corresponds to the first level folder where the results are stored.
+- `file_input` corresponds to the file that contains the number of instances. If you are dealing with more than one repeat sample, use the output of the first run as the input of the succeeding runs. For example, the output of the first run with the input of `file_input` will be `file_input_REPLACED`. Hence, for the succeeding runs, the input will be `file_input_REPLACED` with an output of `file_input_REPLACED`. The input and output files of the succeeding runs will have the same name.
+
+
+<details>
+  <summary>replaceInstance.sh</summary>
+  
+  
+```bash
+#!/bin/bash
+# Set some default values:
+BARCODE=unset
+INSTANCE=unset
+DIR_INPUT=unset
+FILE_INPUT=unset
+
+#==================================================================================
+# Chunk 1
+# The warning and instruction on how to structure the command for correct syntax.
+usage()
+{
+  echo "********************************************************"
+  printf "\n"
+  echo "P A R A N G      M A Y     M A L I,     L O D I C A K E !!!!"
+  printf "\n"
+  echo "S T E P   1:      C H I L L.     Y O U  G O T  T H I S.    I  B E L I E V E  I N  Y O U."
+  printf "\n"
+  echo "Usage:  [ -b or --barcode barcodeOfTheRepeat ] [ -i or --instance instanceNumber ]"
+  echo "        [ -d or --dir_input firstLevelDirectory ] [ -f or --file_input fileContainingTheInstances ]"
+  echo "Example: ./replaceInstance.sh --barcode 2194 --instance 2 --dir_input Batch53 --file_input 20220908_0847_X3_FAT96737_d97a9a19.redcap_meta_analysis"
+  printf "\n"
+  echo "********************************************************"
+  exit 2
+}
+#==================================================================================
+
+#==================================================================================
+# Chunk 2
+# Parses the arguments entered in the command line
+PARSED_ARGUMENTS=$(getopt -a -n 'replacingInstanceNumber' -o "b:i:d:f:" --long "barcode:,instance:,dir_input:,file_input:" -- "$@")
+VALID_ARGUMENTS=$?
+if [ "$VALID_ARGUMENTS" != "0" ]; then
+  usage
+fi
+
+eval set -- "$PARSED_ARGUMENTS"
+while :
+do
+  case "$1" in
+    -b | --barcode ) BARCODE="$2" ; shift 2 ;;
+    -i | --instance ) INSTANCE="$2" ; shift 2 ;;
+    -d | --dir_input ) DIR_INPUT="$2" ; shift 2 ;;
+    -f | --file_input ) FILE_INPUT="$2" ; shift 2 ;;
+    # -- means the end of the arguments; drop this, and break out of the while loop
+    --) shift; break ;;
+    # If invalid options were passed, then getopt should have reported an error,
+    # which we checked as VALID_ARGUMENTS when getopt was called...
+    *)
+       usage ;;
+  esac
+done
+#==================================================================================
+
+#==================================================================================
+# Chunk 3
+
+if [[ $BARCODE != unset && $INSTANCE != unset && $DIR_INPUT != unset && $FILE_INPUT != unset ]]       # Forces the user to input both parameters
+then
+  sed 's/$BARCODE,analysis,1/$BARCODE,analysis,$INSTANCE/g' $DIR_INPUT/articNcovNanopore_prepRedcap_makeMeta/$FILE_INPUT".csv" > $DIR_INPUT/articNcovNanopore_prepRedcap_makeMeta/$FILE_INPUT"_REPLACED".csv
+else
+  usage
+fi
+```
+  
+</details>
+  
+  
+  ### asdasdasd
