@@ -320,7 +320,21 @@ If you have a sample that was already sequenced from the previous batch, conside
 
 - `barcode` corresponds to the barcode of the repeat sample.
 - `instance` corresponds to the number that this sample has been sequenced. If this is the 2nd time, place `2`.
-- `dir_input` corresponds to the first level folder where the results are stored.
+- `dir_input` corresponds to the **first level** folder where the results are stored. In the example below, it is the **Batch53**.
+```
+      Batch53
+	├── articNcovNanopore_prepRedcap_bammix_process
+	├── articNcovNanopore_prepRedcap_concatenate_process
+	├── articNcovNanopore_prepRedcap_process_csv
+	├── articNcovNanopore_prepRedcap_renameFasta
+	├── batch53_barcodes.csv
+	└── articNcovNanopore_prepRedcap_makeMeta
+		├── 20220908_0847_X3_FAT96737_d97a9a19.redcap_meta.csv
+		├── 20220908_0847_X3_FAT96737_d97a9a19.redcap_meta_analysis.csv
+		├── 20220908_0847_X3_FAT96737_d97a9a19.redcap_meta_case.csv
+		├── 20220908_0847_X3_FAT96737_d97a9a19.redcap_meta_diagnostic.csv 
+		└── 20220908_0847_X3_FAT96737_d97a9a19.redcap_meta_sequence.csv
+```
 - `file_input` corresponds to the file that contains the number of instances. If you are dealing with more than one repeat sample, use the output of the first run as the input of the succeeding runs. For example, the output of the first run with the input of `file_input` will be `file_input_REPLACED`. Hence, for the succeeding runs, the input will be `file_input_REPLACED` with an output of `file_input_REPLACED`. The input and output files of the succeeding runs will have the same name.
 
 
@@ -397,4 +411,4 @@ fi
 </details>
   
   
-  ### asdasdasd
+### asdasdasd
