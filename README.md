@@ -163,7 +163,7 @@ usage()
 #==================================================================================
 # Chunk 2
 # Parses the arguments entered in the command line
-PARSED_ARGUMENTS=$(getopt -a -n 'runningArticNextflow' -o "d:s:" --long "dir:,barcode:" -- "$@")
+PARSED_ARGUMENTS=$(getopt -a -n 'runningArticNextflow' -o "d:b:" --long "dir:,barcode:" -- "$@")
 VALID_ARGUMENTS=$?
 if [ "$VALID_ARGUMENTS" != "0" ]; then
   usage
@@ -174,7 +174,7 @@ while :
 do
   case "$1" in
     -d | --dir ) DIR="$2" ; shift 2 ;;
-    -s | --barcode ) BAR="$2" ; shift 2 ;;
+    -b | --barcode ) BAR="$2" ; shift 2 ;;
     # -- means the end of the arguments; drop this, and break out of the while loop
     --) shift; break ;;
     # If invalid options were passed, then getopt should have reported an error,
