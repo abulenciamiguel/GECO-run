@@ -108,7 +108,7 @@ EOF
         printf "\n\n"
         sshpass -p hpc1PASSWORD ssh -p 2222 -T hpcUSER@hpcIPADDRESS "rm /data/geco_proj_dir/raw/RITM/$SEQ"
         sshpass -p hpc1PASSWORD ssh -p 2222 -T hpcUSER@hpcIPADDRESS <<EOF
-        ln -s /data/nfs/storage/ONT_Runs/drag_and_drop/test_transfer/$SEQ \
+        ln -s /data/nfs/storage/ONT_Runs/drag_and_drop/$SEQ \
         /data/geco_proj_dir/raw/RITM/$SEQ
 EOF
       else  # If all is good.
