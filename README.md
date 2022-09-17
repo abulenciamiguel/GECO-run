@@ -195,7 +195,7 @@ if [[ $DIR != unset && $BAR != unset ]]        # Forces the user to input both p
 then
 
   # Copies the barcode file to the HPC1 directory
-  sshpass -p PASSWORD scp -P 2222 $BAR USER@IPADDRESS:/data/geco_proj_dir/raw/RITM/$DIR/
+  sshpass -p PASSWORD scp -P 2222 $BAR USER@IPADDRESS:/data/geco_proj_dir/raw/RITM/
 
   # Saves the sequencing summary file in a variable
   seqsum_file=$(sshpass -p PASSWORD ssh -p 2222 -T USER@IPADDRESS "ls -1 /data/geco_proj_dir/raw/RITM/$DIR/sequencing_summary_*txt")
@@ -215,7 +215,7 @@ then
     --sequencing_summary $seqsum_file \
     --outdir /data/geco_proj_dir/analysis/RITM/$DIR"_results" \
     --directory /data/geco_proj_dir/raw/RITM/$DIR \
-    --redcap_local_ids /data/geco_proj_dir/raw/RITM/$DIR/$BAR
+    --redcap_local_ids /data/geco_proj_dir/raw/RITM/$BAR
 
 EOF
 
