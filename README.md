@@ -37,9 +37,11 @@
 
 
 ### 4. Inspecting the results
-**In case of Repeat Samples** </br>
-If you have a sample that was already sequenced from the previous batch, consider it as a *repeat sample*. Change the entry of that sample in the `redcap_repeat_instance` column of the `redcap_meta_analysis.csv` located in the `articNcovNanopore_prepRedcap_makeMeta` folder. You can do this using the following sample command: </br>
-
+- **Dealing with repeat samples** </br>
+  Run script `dealRepeats.sh` to change the instance number in metadata and move the fasta file of the repeat samples. You need a file containing the sample number of the repeat samples in each line. `Batch52` corresponds to the directory where the results are found. </br>
+  Example: </br>
+  ```
+  ./dealRepeats.sh --dir_input Batch52 --file_repeat repeats.csv
+  ```
   
   
-### Testing
