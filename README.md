@@ -61,3 +61,8 @@
   ```
   conda run -n redcap_upload python uploadFastaREDCaP.py --api OIPSDVBNsUF4S13FAS3FVSAF11345135 --dir Batch54
   ```
+  For repeat samples, manually upload their `fasta` files. </br></br>
+  
+  
+  
+### 5. Preparing for GISAID upload
