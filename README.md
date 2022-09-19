@@ -49,7 +49,7 @@
   *Step 2*: On the left panel under `Applications`, go to the `Data Import Tool`. </br>
   *Step 3*: Under `CSV import` tab, click `Choose File` button to upload the CSV file. </br>
   *Step 4 (`Sequence`)*: Upload the `redcap_meta_sequence.csv` file inside the `articNcovNanopore_prepRedcap_makeMeta` folder. </br>
-  *Step 5 (`Analysis`)*: In the new page that loads up, upload the `meta_analysis.csv` file inside the `articNcovNanopore_prepRedcap_process_csv` folder. </br>
+  *Step 5 (`Analysis`)*: In the new page that loads up, upload the `meta_analysis.csv` file inside the `articNcovNanopore_prepRedcap_process_csv` folder. </br></br>
 
 
 - **Uploading `fasta` files** </br>
