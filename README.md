@@ -36,12 +36,20 @@
 
 
 
-### 4. Inspecting the results
-- **Dealing with repeat samples** </br>
+### 4. Uploading to REDCap
+- **Dealing with repeat samples** (Skip if there is none)</br>
   Run script `dealRepeats.sh` to change the instance number in metadata and move the fasta file of the repeat samples. You need a file containing the sample number of the repeat samples in each line. `Batch52` corresponds to the directory where the results are found. </br>
   Example: </br>
   ```
   ./dealRepeats.sh --dir_input Batch52 --file_repeat repeats.csv
   ```
-  
-  
+
+- **Uploading metadata for the `Sequence` and `Analysis` information** </br>
+  *Step 1*: Go to the `GECO` page of RITM's [REDCap](https://geco.ritm-edc.net/) website. </br>
+  *Step 2*: On the left panel under `Applications`, go to the `Data Import Tool`. </br>
+  *Step 3*: Under `CSV import` tab, click `Choose File` button to upload the CSV file. </br>
+  *Step 4 (`Sequence`)*: Upload the `redcap_meta_sequence.csv` file inside the `articNcovNanopore_prepRedcap_makeMeta` folder. </br>
+  *Step 5 (`Analysis`)*: In the new page that loads up, upload the `meta_analysis.csv` file inside the `articNcovNanopore_prepRedcap_process_csv` folder. </br>
+
+
+- **Uploading `fasta` files
