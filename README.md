@@ -52,4 +52,12 @@
   *Step 5 (`Analysis`)*: In the new page that loads up, upload the `meta_analysis.csv` file inside the `articNcovNanopore_prepRedcap_process_csv` folder. </br>
 
 
-- **Uploading `fasta` files
+- **Uploading `fasta` files** </br>
+  Run the following command: </br>
+  ```
+  conda run -n redcap_upload python uploadFastaREDCaP.py --api API_TOKEN --dir RESULT_DIRECTORY
+  ```
+  Example: </br>
+  ```
+  conda run -n redcap_upload python uploadFastaREDCaP.py --api OIPSDVBNsUF4S13FAS3FVSAF11345135 --dir Batch54
+  ```
