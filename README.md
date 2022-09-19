@@ -403,7 +403,7 @@ while :
 do
   case "$1" in
     -d | --dir ) DIR="$2" ; shift 2 ;;
-    -s | --batch ) BATCH="$2" ; shift 2 ;;
+    -b | --batch ) BATCH="$2" ; shift 2 ;;
     # -- means the end of the arguments; drop this, and break out of the while loop
     --) shift; break ;;
     # If invalid options were passed, then getopt should have reported an error,
@@ -428,6 +428,7 @@ then
   sshpass -p PASSWORD scp -r -P 2222 USER@IPADDRESS:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_makeMeta ./Batch$BATCH
   sshpass -p PASSWORD scp -r -P 2222 USER@IPADDRESS:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_concatenate_process ./Batch$BATCH
   sshpass -p PASSWORD scp -r -P 2222 USER@IPADDRESS:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_bammix_process ./Batch$BATCH
+  sshpass -p PASSWORD scp -r -P 2222 USER@IPADDRESS:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/postArtic ./Batch$BATCH
 else
 	usage
 fi
