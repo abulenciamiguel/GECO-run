@@ -59,7 +59,7 @@
   ```
   Example: </br>
   ```
-  conda run -n redcap_upload python uploadFastaREDCaP.py --api OIPSDVBNsUF4S13FAS3FVSAF11345135 --dir Batch52
+  conda run -n redcap_upload python uploadFastaREDCaP.py --api OIPSDVBNsUF4S13FAS3FVSAF11345135 --dir Batch54
   ```
   For repeat samples, manually upload their `fasta` files. </br></br>
   
@@ -69,18 +69,16 @@
 - **Downloading updated metadata from GISAID**
     Download metadata from GISAID and save on the directory where you want it to be extracted. </br>
     For instance, if your results are in `Batch54`, place it in there.
-- **Prepare the metadata and fasta file** <br>
-    Run the script `prepareGISAID.sh` using the following command: `./prepareGISAID.sh --meta path/to/gisaid_metadata.tar.xz` </br>
+- **Extracting PH samples** <br>
+    Run the script `extractPHGISAID.sh` using the following command: `./extractPHGISAID.sh --out path/to/results --meta gisaid_metadata.tar.xz` </br>
     Example: </br>
     ```
-    ./prepareGISAID.sh ---meta Batch52/metadata_tsv_2022_09_17.tar.xz
+    ./extractPHGISAID.sh --out Batch54 --meta metadata_tsv_2022_09_17.tar.xz
     ```
-    Sucessful run of the code will show the following on the terminal:
+- **Copying results to local computer**
+    Run the script `copyResults_gisaid.sh` using the following command: `./copyResults_gisaid.sh --dir path/to/results` </br>
+    Example: </br>
     ```
-    HTTP Status: 200
-    HTTP Status: 200
-    HTTP Status: 200
-    HTTP Status: 200
-    HTTP Status: 200
+    ./copyResults.sh --dir Batch52
     ```
-- **Copying of files to local computer**
+    The copied results can be found in the gisaidSubmission inside the set directory.
