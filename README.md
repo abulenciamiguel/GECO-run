@@ -59,7 +59,7 @@
   ```
   Example: </br>
   ```
-  conda run -n redcap_upload python uploadFastaREDCaP.py --api OIPSDVBNsUF4S13FAS3FVSAF11345135 --dir Batch54
+  conda run -n redcap_upload python uploadFastaREDCaP.py --api OIPSDVBNsUF4S13FAS3FVSAF11345135 --dir Batch52
   ```
   For repeat samples, manually upload their `fasta` files. </br></br>
   
@@ -73,7 +73,7 @@
     Run the script `prepareGISAID.sh` using the following command: `./prepareGISAID.sh --meta path/to/gisaid_metadata.tar.xz` </br>
     Example: </br>
     ```
-    ./prepareGISAID.sh ---meta Batch54/metadata_tsv_2022_09_17.tar.xz
+    ./prepareGISAID.sh ---meta Batch52/metadata_tsv_2022_09_17.tar.xz
     ```
     Sucessful run of the code will show the following on the terminal:
     ```
