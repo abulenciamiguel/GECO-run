@@ -59,7 +59,7 @@
   ```
   Example: </br>
   ```
-  conda run -n redcap_upload python uploadFastaREDCaP.py --api OIPSDVBNsUF4S13FAS3FVSAF11345135 --dir Batch54
+  conda run -n redcap_upload python uploadFastaREDCaP.py --api OIPSDVBNsUF4S13FAS3FVSAF11345135 --dir Batch52
   ```
   For repeat samples, manually upload their `fasta` files. </br></br>
   
@@ -68,12 +68,12 @@
 ### 5. Preparing for GISAID upload
 - **Downloading updated metadata from GISAID**
     Download metadata from GISAID and save on the directory where you want it to be extracted. </br>
-    For instance, if your results are in `Batch54`, place it in there.
+    For instance, if your results are in `Batch52`, place it in there.
 - **Extracting PH samples** <br>
     Run the script `extractPHGISAID.sh` using the following command: `./extractPHGISAID.sh --out path/to/results --meta gisaid_metadata.tar.xz` </br>
     Example: </br>
     ```
-    ./extractPHGISAID.sh --out Batch54 --meta metadata_tsv_2022_09_17.tar.xz
+    ./extractPHGISAID.sh --out Batch52 --meta metadata_tsv_2022_09_17.tar.xz
     ```
 - **Copying results to local computer**
     Run the script `copyResults_gisaid.sh` using the following command: `./copyResults_gisaid.sh --dir path/to/results` </br>
