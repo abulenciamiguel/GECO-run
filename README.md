@@ -69,9 +69,18 @@
 - **Downloading updated metadata from GISAID**
     Download metadata from GISAID and save on the directory where you want it to be extracted. </br>
     For instance, if your results are in `Batch54`, place it in there.
-- **Extracting PH samples** <br>
-    Run the script `extractPHGISAID.sh` using the following command: `./extractPHGISAID.sh --out path/to/results --meta gisaid_metadata.tar.xz` </br>
+- **Prepare the metadata and fasta file** <br>
+    Run the script `prepareGISAID.sh` using the following command: `./prepareGISAID.sh --meta path/to/gisaid_metadata.tar.xz` </br>
     Example: </br>
     ```
-    ./extractPHGISAID.sh --out Batch54 --meta metadata_tsv_2022_09_17.tar.xz
+    ./prepareGISAID.sh ---meta Batch54/metadata_tsv_2022_09_17.tar.xz
     ```
+    Sucessful run of the code will show the following on the terminal:
+    ```
+    HTTP Status: 200
+    HTTP Status: 200
+    HTTP Status: 200
+    HTTP Status: 200
+    HTTP Status: 200
+    ```
+- **Copying of files to local computer**
