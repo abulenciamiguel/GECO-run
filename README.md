@@ -75,6 +75,10 @@
     ```
     ./extractPHGISAID.sh --out Batch52 --meta metadata_tsv_2022_09_17.tar.xz
     ```
+    Successful run will show the following on the terminal: </br>
+    ```
+    
+    ```
 - **Copying results to local computer**
     Run the script `copyResults_gisaid.sh` using the following command: `./copyResults_gisaid.sh --dir path/to/results` </br>
     Example: </br>
