@@ -66,3 +66,12 @@
   
   
 ### 5. Preparing for GISAID upload
+- **Downloading updated metadata from GISAID**
+    Download metadata from GISAID and save on the directory where you want it to be extracted. </br>
+    For instance, if your results are in `Batch54`, place it in there.
+- **Extracting PH samples** <br>
+    Run the script `extractPHGISAID.sh` using the following command: `./extractPHGISAID.sh --out path/to/results --meta gisaid_metadata.tar.xz` </br>
+    Example: </br>
+    ```
+    ./extractPHGISAID.sh --out Batch54 --meta metadata_tsv_2022_09_17.tar.xz
+    ```
