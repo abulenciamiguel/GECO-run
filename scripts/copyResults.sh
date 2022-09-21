@@ -54,15 +54,16 @@ done
 
 if [[ $DIR != unset && $BATCH != unset ]]       # Forces the user to input both parameters
 then
-  mkdir -p Batch$BATCH            # Creates a directory in the local workstation
+	mkdir -p Batch$BATCH						# Creates a directory in the local workstation
 
-  # Copies the following folders
-  sshpass -p PASSWORD_HPC scp -r -P 2222 USER_HPC@IPADDRESS_HPC:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_renameFasta ./Batch$BATCH
-  sshpass -p PASSWORD_HPC scp -r -P 2222 USER_HPC@IPADDRESS_HPC:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_process_csv ./Batch$BATCH
-  sshpass -p PASSWORD_HPC scp -r -P 2222 USER_HPC@IPADDRESS_HPC:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_makeMeta ./Batch$BATCH
-  sshpass -p PASSWORD_HPC scp -r -P 2222 USER_HPC@IPADDRESS_HPC:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_concatenate_process ./Batch$BATCH
-  sshpass -p PASSWORD_HPC scp -r -P 2222 USER_HPC@IPADDRESS_HPC:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_bammix_process ./Batch$BATCH
-  sshpass -p PASSWORD_HPC scp -r -P 2222 USER_HPC@IPADDRESS_HPC:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/postArtic ./Batch$BATCH
+	# Copies the following folders
+  sshpass -p ?+6aW#Xk=u2dRjpc scp -r -P 2222 ritmadmin@192.168.20.13:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_pangolin_process ./Batch$BATCH
+	sshpass -p ?+6aW#Xk=u2dRjpc scp -r -P 2222 ritmadmin@192.168.20.13:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_renameFasta ./Batch$BATCH
+	sshpass -p ?+6aW#Xk=u2dRjpc scp -r -P 2222 ritmadmin@192.168.20.13:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_process_csv ./Batch$BATCH
+	sshpass -p ?+6aW#Xk=u2dRjpc scp -r -P 2222 ritmadmin@192.168.20.13:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_makeMeta ./Batch$BATCH
+	sshpass -p ?+6aW#Xk=u2dRjpc scp -r -P 2222 ritmadmin@192.168.20.13:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_concatenate_process ./Batch$BATCH
+	sshpass -p ?+6aW#Xk=u2dRjpc scp -r -P 2222 ritmadmin@192.168.20.13:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/articNcovNanopore_prepRedcap_bammix_process ./Batch$BATCH
+  sshpass -p ?+6aW#Xk=u2dRjpc scp -r -P 2222 ritmadmin@192.168.20.13:/data/geco_proj_dir/analysis/RITM/$DIR"_results"/postArtic ./Batch$BATCH
 else
-  usage
+	usage
 fi
