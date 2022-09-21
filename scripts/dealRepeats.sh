@@ -59,7 +59,7 @@ then
       echo "Dealing with repeat sample $line............................"
 
       # Changing the instance number to 2
-      sed -i "s/$line,analysis,1/$line,analysis,2/g" $DIR_INPUT/articNcovNanopore_prepRedcap_makeMeta/*.redcap_meta_analysis.csv
+      sed -i "s/$line,sequence,1/$line,sequence,2/g" $DIR_INPUT/articNcovNanopore_prepRedcap_makeMeta/*.redcap_meta_sequence.csv
       sed -i "s/$line,analysis,1/$line,analysis,2/g" $DIR_INPUT/articNcovNanopore_prepRedcap_process_csv/meta_analysis.csv
 
       # Moving the fasta file of repeat samples to new folder
