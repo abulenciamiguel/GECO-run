@@ -21,14 +21,21 @@ usher_df = usher_file[['NC_045512v2', '19A', 'B']]
 # Changing the column names in UShER file
 usher_df.rename(columns = {'NC_045512v2':'seqName', '19A':'clade', 'B':'Nextclade_pango'}, inplace = True)
 
+# Sorting rows based on seqName
+nextclade_sorted = nextclade_df.sort_values(by=['seqName'], ascending=True)
+usher_sorted = usher_df.sort_values(by=['seqName'], ascending=True)
+
 
 # Concatenating the two dataframes then drops the duplicate rows (i.e., assigned to similar lineages)
-diff_df = pd.concat([nextclade_df,usher_df]).drop_duplicates(keep=False)
+diff_df = pd.concat([nextclade_sorted,usher_sorted]).drop_duplicates(keep=False)
 
 
-if len(diff_df) == 0:
+flagged = len(diff_df)/2
+
+if flagged == 0:
 	print("All samples have the same lineage assignment using Nextclade and UShER")
 else:
+	print("There are", int(flagged), "flagged samples!\n")
 	print("Check the following samples in Nextclade and UShER results!")
 	print(diff_df)
 # Saving the sample assigned to different lineages to a csv file
