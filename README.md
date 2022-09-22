@@ -64,8 +64,26 @@
   For repeat samples, manually upload their `fasta` files. </br></br>
   
   
+
+### 5. QC
+- **Flagging lineage assignments** </br>
+  Run the following command to flag samples </br>
+  ```
+  python flagLineage.py --dir Batch52
+  ```
   
-### 5. Preparing for GISAID upload
+- **Flagging Nextclade results** </br>
+  Run the following command to flag samples </br>
+  ```
+  python flagNextclade.py --dir Batch52
+  ```
+  
+- **Verifying flagged samples**
+
+
+
+
+### 6. Preparing for GISAID upload
 - **Downloading updated metadata from GISAID**
     Download metadata from GISAID and save on the directory where you want it to be extracted. </br>
     For instance, if your results are in `Batch52`, place it in there.
