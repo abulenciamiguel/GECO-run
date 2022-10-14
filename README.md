@@ -5,7 +5,7 @@
   Run the script `transfer.sh` using the following command `./transfer.sh --sequence NameOfTheFolder`. </br>
   Example:
   ```
-  ./transfer.sh --sequence sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9
+  ./transfer.sh --sequence sarscov2_geco_run52
   ```
   - The source folder is found in **GridIon**'s `/data`. </br>
   - The target directory in **Storage** is `/storage/ONT_Runs/drag_and_drop`. </br>
