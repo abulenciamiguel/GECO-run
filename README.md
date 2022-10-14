@@ -1,11 +1,21 @@
 # How to run *ncov2019-artic-nf*
-**Note:** Have `sshpass` installed using `sudo apt-get install sshpass`. 
+**Note:** </br>
+- Have `sshpass` installed using `sudo apt-get install sshpass`. 
+- Prior to running the first script, have someone from `BDMU` access `GridIon` using `ssh` so that you can take the directory of the raw file. The format of the directory will be `Level1/Level2/Level3`. 
+- Prepare a `csv` file containing the `barcodes` in the first column and local ID in the second one. See example [here](https://github.com/ufuomababatunde/GECO-run/blob/main/sampleFile/samplebarcodes.csv).
+- If you have samples that have been resequenced, hereafter referred as `repeats`, prepare a `csv` file containing just the `number` of its `sample ID` as shown [here](https://github.com/ufuomababatunde/GECO-run/blob/main/sampleFile/samplerepeats.csv).
+- Place the said `csv` files as well as the scripts in an easily accessible directory. For example, you can place them in `drive D` which can be accessed through the `Linux terminal` using
+```
+cd /mnt/d
+```
+
+
 
 ### 1. Copying files from `GridIon` to `Storage` and `HPC1`.
-  Run the script `transfer.sh` using the following command `./transfer.sh --sequence NameOfTheFolder`. </br>
+  Assuming you are in `drive D`, run the following command `./01_transfer.sh --sequence Level1` where `Level1` corresponds to the first level of the copied directory.</br>
   Example:
   ```
-  ./transfer.sh --sequence sarscov2_geco_run52
+  ./01_transfer.sh --sequence sarscov2_geco_run52
   ```
   - The source folder is found in **GridIon**'s `/data`. </br>
   - The target directory in **Storage** is `/storage/ONT_Runs/drag_and_drop`. </br>
@@ -14,21 +24,25 @@
 
 
 ### 2. Running the `artic-nf` pipeline.
-- Run the script `runArtic.sh` using the following command `./runArtic.sh --dir path/to/data --barcode barcode.csv`. </br>
+- Run the following command `./02_runArtic.sh --dir Level1/Level2/Level3 --barcode barcode.csv`. </br>
   Example: </br>
   ```
-  ./runArtic.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9 --barcode batch52_barcodes.csv
+  ./02_runArtic.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9 --barcode batch52_barcodes.csv
   ```
-- Run the script `runPostArtic.sh` using the following command `./runPostArtic.sh --dir path/to/data`. </br>
+
+
+
+### 3. Run the additional `UShER`'s lineage assignment and `sc2rf`'s recombinant analysis
+- Run the following command `./03_runPostArtic.sh --dir Level1/Level2/Level3`. </br>
   Example: </br>
   ```
-  ./runPostArtic.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9
+  ./03_runPostArtic.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9
   ```
 
 
 
-### 3. Copying results to local workstation
-  Run the script `copyResults.sh` using the following command `./copyResults.sh --dir path/to/data --batch number`. Make sure that the batch number is not yet present in your local directory. </br>
+### 4. Copying results to local workstation
+  Run the following command `./04_copyResults.sh --dir Level1/Level2/Level3 --batch number`. Make sure that the batch number is not yet present in your local directory. </br>
   Example: </br>
 ```
 ./copyResults.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9 --batch 52
@@ -36,7 +50,7 @@
 
 
 
-### 4. Uploading to REDCap
+### 5. Uploading to REDCap
 - **Dealing with repeat samples** (Skip if there is none)</br>
   Run script `dealRepeats.sh` to change the instance number in metadata and move the fasta file of the repeat samples. You need a file containing the sample number of the repeat samples in each line. `Batch52` corresponds to the directory where the results are found. </br>
   Example: </br>
