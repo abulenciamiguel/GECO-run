@@ -1,18 +1,19 @@
 # How to run *ncov2019-artic-nf*
 **Note:** </br>
 - Have `sshpass` installed using `sudo apt-get install sshpass`. 
-- Prior to running the first script, have someone from `BDMU` access `GridIon` using `ssh` so that you can take the directory of the raw file. The format of the directory will be `Level1/Level2/Level3`. 
 - Prepare a `csv` file containing the `barcodes` in the first column and local ID in the second one. See example [here](https://github.com/ufuomababatunde/GECO-run/blob/main/sampleFile/samplebarcodes.csv).
 - If you have samples that have been resequenced, hereafter referred as `repeats`, prepare a `csv` file containing just the `number` of its `sample ID` as shown [here](https://github.com/ufuomababatunde/GECO-run/blob/main/sampleFile/samplerepeats.csv).
-- Place the said `csv` files as well as the scripts in an easily accessible directory. For example, you can place them in `drive D` which can be accessed through the `Linux terminal` using
+- Place the said `csv` files as well as the scripts in an easily accessible directory. For example, you can place them inside the `GECO` folder of `drive C` which can be accessed through the `Linux terminal` using
 ```
-cd /mnt/d
+cd /mnt/c/GECO
 ```
 
 
+### 0. Identifying which directory to copy
+  Run the following command `./00_checkDataOnGrid.sh` to access the **GridIon's** data folder. Copy the **name** of the directory containing the raw files to be analayzed. 
 
 ### 1. Copying files from `GridIon` to `Storage` and `HPC1`.
-  Assuming you are in `drive D`, run the following command `./01_transfer.sh --sequence Level1` where `Level1` corresponds to the first level of the copied directory.</br>
+  Run the following command `./01_transfer.sh --sequence Level1` where `Level1` corresponds to the first level of the copied directory name.</br>
   Example:
   ```
   ./01_transfer.sh --sequence sarscov2_geco_run52
@@ -21,7 +22,10 @@ cd /mnt/d
   - The target directory in **Storage** is `/storage/ONT_Runs/drag_and_drop`. </br>
   - The target directory in **HPC1** is `/data/geco_proj_dir/raw/RITM`. </br>
 
-
+  Successful copying of files will look like this. </br> </br>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ufuomababatunde/GECO-run/main/img/rsync_success.PNG">
+</p>
 
 ### 2. Running the `artic-nf` pipeline.
 - Run the following command `./02_runArtic.sh --dir Level1/Level2/Level3 --barcode barcode.csv`. </br>
