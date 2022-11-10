@@ -37,7 +37,7 @@ cd /mnt/c/GECO
 
 
 ### 3. Run the additional `UShER`'s lineage assignment and `sc2rf`'s recombinant analysis
-- Run the following command `./03_runPostArtic.sh --dir Level1/Level2/Level3`. </br>
+  Run the following command `./03_runPostArtic.sh --dir Level1/Level2/Level3`. </br>
   Example: </br>
   ```
   ./03_runPostArtic.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9
@@ -49,7 +49,7 @@ cd /mnt/c/GECO
   Run the following command `./04_copyResults.sh --dir Level1/Level2/Level3 --batch number`. Make sure that the batch number is not yet present in your local directory. </br>
   Example: </br>
 ```
-./copyResults.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9 --batch 52
+./04_copyResults.sh --dir sarscov2_geco_run52/sarscov2_geco_run52_09012022/20220901_0808_X5_FAT95592_ef9365b9 --batch 52
 ```
 
 
